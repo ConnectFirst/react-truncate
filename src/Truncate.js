@@ -62,6 +62,11 @@ export default class Truncate extends Component {
         if (this.props.children !== prevProps.children) {
             this.forceUpdate();
         }
+
+        if (this.notifyOfTruncate) {
+            this.props.onTruncate(this.notifyOfTruncate.didTruncate);
+            this.notifyOfTruncate = null;
+        }
     }
 
     componentWillUnmount() {
@@ -110,9 +115,7 @@ export default class Truncate extends Component {
         } = this.props;
 
         if (typeof onTruncate === 'function') {
-            this.timeout = window.requestAnimationFrame(() => {
-                onTruncate(didTruncate);
-            });
+            this.notifyOfTruncate = {didTruncate};
         }
     }
 

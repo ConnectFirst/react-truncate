@@ -411,20 +411,14 @@ describe('<Truncate />', () => {
                     });
                 });
 
-                it('should invoke asynchronously', async () => {
-                    const nextFrame = () => new Promise(resolve =>
-                        requestAnimationFrame(resolve)
-                    );
-
+                it('should invoke after render', async () => {
                     const handleTruncate = sinon.spy();
+                    const container = document.createElement('div');
 
-                    renderIntoBox(
-                        <Truncate onTruncate={handleTruncate} />
+                    render(
+                        <Truncate onTruncate={handleTruncate} />,
+                        container
                     );
-
-                    expect(handleTruncate, 'was not called');
-
-                    await nextFrame();
 
                     expect(handleTruncate, 'was called');
                 });
